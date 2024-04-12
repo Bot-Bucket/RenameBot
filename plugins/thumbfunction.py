@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from helper.database import find, delthumb, addthumb
 
-@Client.on_message(filters.private & filters.command(['viewthumb']))
+@Client.on_message(filters.private & filters.command(['showthumbnail']))
 async def viewthumb(client,message):
 		print(message.chat.id)
 		thumb = find(int(message.chat.id))[0]
@@ -11,7 +11,7 @@ async def viewthumb(client,message):
 			await message.reply_text("**You Don't Have Any Thumbnail ❌**")
 	
 	 
-@Client.on_message(filters.private & filters.command(['delthumb']))
+@Client.on_message(filters.private & filters.command(['deletethumbnail']))
 async def removethumb(client,message):
 	delthumb(int(message.chat.id))
 	await message.reply_text("**Thumbnail Deleted Successfully 🗑️**")
