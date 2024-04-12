@@ -1,6 +1,6 @@
-from pyrogram import Client, filters 
+from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from helper.database import db
+from helper.database import *
 
 @Client.on_message(filters.private & filters.command('set_caption'))
 async def add_caption(client, message):
@@ -9,21 +9,21 @@ async def add_caption(client, message):
     caption = message.text.split(" ", 1)[1]
     if "{filename}" not in caption and "{filesize}" not in caption and "{duration}" not in caption:
         return await message.reply_text("**❌ Please include at Least one of the Placeholders `{filename}` or `{filesize}` or `{duration}` in the caption. Example :-\n`/set_caption <b>{filename}</b>`**", parse_mode=enums.ParseMode.MARKDOWN)
-    await db.set_caption(message.from_user.id, caption=caption)
+    await addcaption(message.from_user.id, caption=caption)
     await message.reply_text(f"**✅ Caption saved for {message.from_user.mention}. Check Your Caption using /get_caption**")
-
-@Client.on_message(filters.private & filters.command(['get_caption']))
-async def see_caption(client, message):
-    caption = await db.get_caption(message.from_user.id)  
+                                       
+@Client.on_message(filters.private & filters.command('see_caption'))
+async def see_caption(client, message): 
+    caption = find(int(message.chat.id))[1]
     if caption:
-        await message.reply_text(f"**--{message.from_user.mention}'s Caption :---**\n\n{caption}")
+       await message.reply_text(f"**--{message.from_user.mention}'s Caption :---**\n\n{caption}")
     else:
-        await message.reply_text("**😔 You Don't have Any Caption. So You're Set Captain.\nExample :- `/set_caption <b>{filename}</b>`**", parse_mode=enums.ParseMode.MARKDOWN)
+       await message.reply_text("**😔 You Don't have Any Caption. So You're Set Captain.\nExample :- `/set_caption <b>{filename}</b>`**", parse_mode=enums.ParseMode.MARKDOWN)
 
 @Client.on_message(filters.private & filters.command('del_caption'))
 async def delete_caption(client, message):
     caption = await db.get_caption(message.from_user.id)  
     if not caption:
-       return await message.reply_text("**😔 You Don't have Any Caption**")
-    await db.set_caption(message.from_user.id, caption=None)
-    await message.reply_text("**❌️ Caption Deleted**")
+       return await message.reply_text("**😔 You Don't have Any Custom Caption ❌**")
+    await delcaption(message.from_user.id, caption=None)
+    await message.reply_text("**Your Caption Successfully Deleted 🗑️**")
