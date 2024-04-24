@@ -8,7 +8,7 @@ OWNER = int(os.environ.get("OWNER", "6012920664"))
 BOT_USERNAME = os.environ.get('BOT_USERNAME', "Anime_Rename_Official_Bot")
 
 FORCE_SUBS = os.environ.get("FORCE_SUBS", "Bucket_Bots")
-LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1001821439025"))
+LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1002025986009"))
 
 DB_URL = os.environ.get("DB_URL", "mongodb+srv://AnimeComplexOfficial:AnimeComplexOfficial@cluster0.p96sfzd.mongodb.net/?retryWrites=true&w=majority")
 DB_NAME = os.environ.get("DB_NAME", "BucketBots")
